@@ -1,21 +1,27 @@
 import React, { Component } from "react";
 import { Button, TextField } from "@mui/material";
+import {useState} from 'react'
 
-class AddTodo extends Component {
+function AddTodo(props) {
   // Create a local react state of the this component with a content property set to nothing.
-  constructor() {
-    super();
-    this.state = {
+  const [state, setState] = useState({
       content: "",
       date : ""
-    };
-  }
+  })
+  
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     content: "",
+  //     date : ""
+  //   };
+  // }
 
   // The handleChange function updates the react state with the new input value provided from the user.
   // "event" is the defined action a user takes. In this case, the event is triggered when the user types something
   // into the text field.
-  handleChange = (event) => {
-    this.setState({
+  function handleChange(event) {
+    setState({
       content: event.target.value,
       date : Date().toLocaleString('en-US'),
     });
@@ -24,17 +30,17 @@ class AddTodo extends Component {
   // event.preventDefault() is called to prevents default event behavior like refreshing the browser.
   // this.props.addTodo(this.state) passes the current state (or user input) into the addTodo function defined
   // in the Home.js file which then adds the input into the list.
-  handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
-    if (this.state.content.trim()) {
-      this.props.addTodo(this.state);
-      this.setState({
+    if (state.content.trim()) {
+      props.addTodo(state);
+      setState({
         content: "",
         date : ""
       });
     }
   };
-  render() {
+
     return (
       // 1. When rendering a component, you can render as many elements as you like as long as it is wrapped inside
       // one div element.
@@ -47,12 +53,12 @@ class AddTodo extends Component {
         <TextField
           label="Add New Item"
           variant="outlined"
-          onChange={this.handleChange}
-          value={this.state.content}
+          onChange={handleChange}
+          value={state.content}
         />
         <Button
           style={{ marginLeft: "10px" }}
-          onClick={this.handleSubmit}
+          onClick={handleSubmit}
           variant="contained"
           color="primary"
         >
@@ -61,6 +67,6 @@ class AddTodo extends Component {
       </div>
     );
   }
-}
+
 
 export default AddTodo;
