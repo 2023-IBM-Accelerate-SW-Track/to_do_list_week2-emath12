@@ -1,6 +1,8 @@
 import React from "react";
 import "../component/todos.css";
 import { Card, CardContent, Grid } from "@mui/material";
+import { ListItemButton, ListItemText } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
 
 // 1. This component formats and returns the list of todos.
 // 2. Treat the question mark like an if statement.
@@ -9,7 +11,7 @@ import { Card, CardContent, Grid } from "@mui/material";
 // 3. The map function is called to assign each array item with a key
 // 4. Think of lines 14-23 as a loop. For each todo in the todo list, we want to give the list item
 // a key, and it's own card shown in the UI
-const Todos = ({ todos }) => {
+const Todos = ({ todos, deleteTodo}) => {
   const todoList = todos.length ? (
     todos.map((todo) => {
       return (
@@ -17,9 +19,13 @@ const Todos = ({ todos }) => {
           <Card>
             {/* Remember, we set the local state of this todo item when the user submits the form in 
             AddTodo.js. All we need to do is return the todo list item {todo.content} */}
-            <CardContent>
-              <span style={{ padding: "50px" }}>{todo.content}</span>
-            </CardContent>
+            <ListItemButton>
+              <Checkbox 
+                style={{paddingLeft: 0, color: "primary"}}
+                onClick={() => deleteTodo(todo.id)}
+              />
+              <ListItemText style={{marginTop:10}} primary={todo.content} secondary={todo.date}></ListItemText>
+            </ListItemButton>
           </Card>
         </Grid>
       );
@@ -29,7 +35,7 @@ const Todos = ({ todos }) => {
   );
   // Lastly, return the todoList constant that we created above to show all of the items on the screen.
   return (
-    <div className="todoCollection" style={{ padding: "10px" }}>
+    <div deleteTodo={deleteTodo} className="todoCollection" style={{ padding: "10px" }}>
       {todoList}
     </div>
   );
